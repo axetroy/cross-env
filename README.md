@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/github/license/axetroy/cross-env.svg)
 ![Repo Size](https://img.shields.io/github/repo-size/axetroy/cross-env.svg)
 
-cross-platform cli for setting environment variables written in [vlang](https://github.com/vlang/v)
+cross-platform cli for setting environment variables, written in [vlang](https://github.com/vlang/v)
 
 ## Installation
 

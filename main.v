@@ -27,7 +27,7 @@ fn main() {
 		print_help()
 		exit(1)
 	}
-	query := r'([a-zA-z0-9_]+)=([a-zA-z0-9_]+)'
+	query := r'([a-zA-z0-9_]+)=(.*)'
 	mut reg := regex.regex_opt(query) or { panic(err) }
 	mut env := os.environ()
 	mut index := 0
