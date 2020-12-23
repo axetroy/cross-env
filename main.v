@@ -55,7 +55,10 @@ fn main() {
 		}
 		index++
 	}
-	bin_path := os.find_abs_path_of_executable(args[index]) or { panic(err) }
+	bin_name := args[index]
+	bin_path := os.find_abs_path_of_executable(bin_name) or {
+		panic("Can not found executable file '$bin_name' in your \$PATH.\n$err")
+	}
 	mut ps := os.new_process(bin_path)
 	ps.set_args(args[(index + 1)..])
 	ps.set_environment(env)
