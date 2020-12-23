@@ -24,7 +24,7 @@ jobs:
       - name: Build cross-env
         run: |
           cd ./cross-env
-          v -prod -os linux -o cross-env_linux build main.v
+          v -prod -os linux -o cross-env_linux main.v
 
       - uses: actions/upload-artifact@v2
         with:
@@ -53,7 +53,7 @@ jobs:
         run: |
           $env:path += ";$(get-location)"
           cd ./cross-env
-          v -prod -os windows -o cross-env_win build main.v
+          v -prod -os windows -o cross-env_win main.v
 
       - uses: actions/upload-artifact@v2
         with:
@@ -82,7 +82,7 @@ jobs:
       - name: Build cross-env
         run: |
           cd ./cross-env
-          v -prod -os macos -o cross-env_osx build main.v
+          v -prod -os macos -o cross-env_osx main.v
 
       - uses: actions/upload-artifact@v2
         with:
