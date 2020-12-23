@@ -4,7 +4,7 @@ import os
 import regex
 
 const (
-	version = 'v0.1.2'
+	version = 'v0.1.3'
 )
 
 fn print_help() {
