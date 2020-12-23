@@ -1,0 +1,126 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout V
+        uses: actions/checkout@v2
+        with:
+          repository: vlang/v
+
+      - name: Build V
+        run: |
+          make
+          sudo ./v symlink
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          path: cross-env
+
+      - name: Build cross-env
+        run: |
+          cd ./cross-env
+          v -prod -os linux -o cross-env_linux build main.v
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux
+          path: ./cross-env/cross-env_linux
+          if-no-files-found: error
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout V
+        uses: actions/checkout@v2
+        with:
+          repository: vlang/v
+
+      - name: Build V
+        run: |
+          .\make.bat -msvc
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          path: cross-env
+
+      - name: Build cross-env
+        run: |
+          $env:path += ";$(get-location)"
+          cd ./cross-env
+          v -prod -os windows -o cross-env_win build main.v
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: windows
+          path: ./cross-env/cross-env_win.exe
+          if-no-files-found: error
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout V
+        uses: actions/checkout@v2
+        with:
+          repository: vlang/v
+
+      - name: Build V
+        run: |
+          make
+          sudo ./v symlink
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          path: cross-env
+
+      - name: Build cross-env
+        run: |
+          cd ./cross-env
+          v -prod -os macos -o cross-env_osx build main.v
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: macos
+          path: ./cross-env/cross-env_osx
+          if-no-files-found: error
+
+  release:
+    name: Release to Github
+    if: startsWith(github.ref, 'refs/tags/') && github.repository == 'axetroy/cross-env'
+    needs: [linux, windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: linux
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: windows
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: macos
+
+      - name: tar
+        run: |
+          mv cross-env_linux cross-env && tar czf cross-env_linux.tar.gz cross-env && rm cross-env
+          mv cross-env_osx cross-env && tar czf cross-env_osx.tar.gz cross-env && rm cross-env
+          mv cross-env_win.exe cross-env.exe && tar czf cross-env_win.tar.gz cross-env.exe && rm cross-env.exe
+          ls -lh
+
+      - uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          files: |
+            cross-env_linux.tar.gz
+            cross-env_osx.tar.gz
+            cross-env_win.tar.gz
+          draft: false
