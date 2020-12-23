@@ -15,7 +15,7 @@ If you are using `unix` style system(`macOS`/`Linux`). enter the command line to
 # install the latest version
 curl -fsSL https://raw.githubusercontent.com/axetroy/cross-env/master/install.sh | bash
 # install the specified version
-curl -fsSL https://raw.githubusercontent.com/axetroy/cross-env/master/install.sh | bash -s v0.1.0
+curl -fsSL https://raw.githubusercontent.com/axetroy/cross-env/master/install.sh | bash -s v0.1.1
 ```
 
 Or download [the release file](https://github.com/axetroy/cross-env/releases) for your platform and put it to `$PATH` folder.
