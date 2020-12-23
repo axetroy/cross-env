@@ -23,6 +23,10 @@ SOURCE CODE:
 
 fn main() {
 	args := os.args[1..]
+	if args.len == 0 {
+		print_help()
+		exit(1)
+	}
 	query := r'([a-zA-z0-9_]+)=([a-zA-z0-9_]+)'
 	mut reg := regex.regex_opt(query) or { panic(err) }
 	mut env := os.environ()
@@ -32,6 +36,15 @@ fn main() {
 			break
 		}
 		text := args[index]
+		if text == '--help' || text == '-H' {
+			print_help()
+			exit(0)
+			return
+		}
+		if text == '--version' || text == '-V' {
+			println(version)
+			exit(0)
+		}
 		mut start, _ := reg.match_string(text)
 		if start >= 0 && reg.groups.len > 0 {
 			key := text.substr(reg.groups[0], reg.groups[1])
