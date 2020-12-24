@@ -4,7 +4,7 @@
 os_archs=(
     # windows/amd64
     linux/amd64
-    drawin/amd64
+    darwin/amd64
     # freebsd/amd64
     openbsd/amd64
     netbsd/amd64
@@ -43,7 +43,7 @@ do
 
     echo "Building ${os_arch}"
 
-    v -show-c-output -prod -cg -os ${os_str} ${arch_str} -o ./bin/${filename} main.v
+    v -show-c-output -cc gcc -prod -cg -os ${os_str} ${arch_str} -o ./bin/${filename} main.v
 
     # if build success
     if [[ $? == 0 ]];then

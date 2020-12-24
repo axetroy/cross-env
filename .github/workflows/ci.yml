@@ -24,13 +24,13 @@ jobs:
       - name: Build cross-env
         run: |
           cd ./cross-env
-          v -prod -os linux -o cross-env_linux main.v
-          bash build.sh
+          v -prod -os linux -o cross-env_linux_amd64 main.v
+          # bash build.sh
 
       - uses: actions/upload-artifact@v2
         with:
           name: linux
-          path: ./cross-env/cross-env_linux
+          path: ./cross-env/cross-env_linux_amd64
           if-no-files-found: error
 
   windows:
@@ -54,12 +54,12 @@ jobs:
         run: |
           $env:path += ";$(get-location)"
           cd ./cross-env
-          v -prod -os windows -o cross-env_win main.v
+          v -prod -os windows -o cross-env_windows_amd64 main.v
 
       - uses: actions/upload-artifact@v2
         with:
           name: windows
-          path: ./cross-env/cross-env_win.exe
+          path: ./cross-env/cross-env_windows_amd64.exe
           if-no-files-found: error
 
   macos:
@@ -83,12 +83,12 @@ jobs:
       - name: Build cross-env
         run: |
           cd ./cross-env
-          v -prod -os macos -o cross-env_osx main.v
+          v -prod -os macos -o cross-env_darwin_amd64 main.v
 
       - uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: ./cross-env/cross-env_osx
+          path: ./cross-env/cross-env_darwin_amd64
           if-no-files-found: error
 
   release:
@@ -111,9 +111,9 @@ jobs:
 
       - name: tar
         run: |
-          mv cross-env_linux cross-env && tar czf cross-env_linux.tar.gz cross-env && rm cross-env
-          mv cross-env_osx cross-env && tar czf cross-env_osx.tar.gz cross-env && rm cross-env
-          mv cross-env_win.exe cross-env.exe && tar czf cross-env_win.tar.gz cross-env.exe && rm cross-env.exe
+          mv cross-env_linux_amd64 cross-env && tar czf cross-env_linux_amd64.tar.gz cross-env && rm cross-env
+          mv cross-env_darwin_amd64 cross-env && tar czf cross-env_darwin_amd64.tar.gz cross-env && rm cross-env
+          mv cross-env_windows_amd64.exe cross-env.exe && tar czf cross-env_windows_amd64.tar.gz cross-env.exe && rm cross-env.exe
           ls -lh
 
       - uses: softprops/action-gh-release@v1
@@ -121,7 +121,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           files: |
-            cross-env_linux.tar.gz
-            cross-env_osx.tar.gz
-            cross-env_win.tar.gz
+            cross-env_linux_amd64.tar.gz
+            cross-env_darwin_amd64.tar.gz
+            cross-env_windows_amd64.tar.gz
           draft: false
