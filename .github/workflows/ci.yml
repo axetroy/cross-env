@@ -111,9 +111,9 @@ jobs:
 
       - name: tar
         run: |
-          mv cross-env_linux_amd64 cross-env && tar czf cross-env_linux_amd64.tar.gz cross-env && rm cross-env
-          mv cross-env_darwin_amd64 cross-env && tar czf cross-env_darwin_amd64.tar.gz cross-env && rm cross-env
-          mv cross-env_windows_amd64.exe cross-env.exe && tar czf cross-env_windows_amd64.tar.gz cross-env.exe && rm cross-env.exe
+          mv cross-env_linux_amd64 cross-env && chmod +x cross-env && tar czf cross-env_linux_amd64.tar.gz cross-env && rm cross-env
+          mv cross-env_darwin_amd64 cross-env && chmod +x cross-env && tar czf cross-env_darwin_amd64.tar.gz cross-env && rm cross-env
+          mv cross-env_windows_amd64.exe cross-env.exe && chmod +x cross-env.exe && tar czf cross-env_windows_amd64.tar.gz cross-env.exe && rm cross-env.exe
           ls -lh
 
       - uses: softprops/action-gh-release@v1
