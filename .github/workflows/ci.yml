@@ -25,6 +25,7 @@ jobs:
         run: |
           cd ./cross-env
           v -prod -os linux -o cross-env_linux main.v
+          bash build.sh
 
       - uses: actions/upload-artifact@v2
         with:
