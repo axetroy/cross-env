@@ -1,6 +1,4 @@
 main
-prune_osx
-prune_win.exe
-prune_linux
+cross-env
 .DS_Store
 *.tar.gz
