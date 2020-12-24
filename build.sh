@@ -54,7 +54,7 @@ do
 
         if [[ $? != 0 ]];then
             fails+=(${os_arch})
-
+        fi
         rm -rf ./${filename}
 
         cd ../
