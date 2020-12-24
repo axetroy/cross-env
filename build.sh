@@ -2,9 +2,9 @@
 
 # Reference:
 os_archs=(
-    drawin/amd64
-    linux/amd64
     # windows/amd64
+    linux/amd64
+    drawin/amd64
     # freebsd/amd64
     openbsd/amd64
     netbsd/amd64
@@ -51,6 +51,9 @@ do
         cd ./bin
 
         tar -czf cross-env_${v_os}_${v_arch}.tar.gz ${filename}
+
+        if [[ $? != 0 ]];then
+            fails+=(${os_arch})
 
         rm -rf ./${filename}
 
