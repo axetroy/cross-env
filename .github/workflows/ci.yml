@@ -30,8 +30,8 @@ jobs:
         with:
           name: linux
           path: |
-            ./cross-env/cross-env_linux_amd64
-            # ./cross-env/cross-env_linux_386
+            ./bin/cross-env/cross-env_linux_amd64
+            # ./bin/cross-env/cross-env_linux_386
           if-no-files-found: error
 
   windows:
@@ -61,8 +61,8 @@ jobs:
         with:
           name: windows
           path: |
-            ./cross-env/cross-env_windows_amd64.exe
-            # ./cross-env/cross-env_windows_386.exe
+            .\\bin\\cross-env/cross-env_windows_amd64.exe
+            # .\\bin\\cross-env/cross-env_windows_386.exe
           if-no-files-found: error
 
   macos:
@@ -91,7 +91,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: ./cross-env/cross-env_darwin_amd64
+          path: ./bin/cross-env/cross-env_darwin_amd64
           if-no-files-found: error
 
   release:
