@@ -24,16 +24,14 @@ jobs:
       - name: Build cross-env
         run: |
           cd ./cross-env
-          v -prod -os linux -m64 -o cross-env_linux_amd64 main.v
-          v -prod -os linux -m32 -o cross-env_linux_386 main.v
-          # bash build.sh
+          make linux
 
       - uses: actions/upload-artifact@v2
         with:
           name: linux
           path: |
             ./cross-env/cross-env_linux_amd64
-            ./cross-env/cross-env_linux_386
+            # ./cross-env/cross-env_linux_386
           if-no-files-found: error
 
   windows:
@@ -57,15 +55,14 @@ jobs:
         run: |
           $env:path += ";$(get-location)"
           cd ./cross-env
-          v -prod -os windows -m64 -o cross-env_windows_amd64 main.v
-          v -prod -os windows -m32 -o cross-env_windows_386 main.v
+          make windows
 
       - uses: actions/upload-artifact@v2
         with:
           name: windows
           path: |
             ./cross-env/cross-env_windows_amd64.exe
-            ./cross-env/cross-env_windows_386.exe
+            # ./cross-env/cross-env_windows_386.exe
           if-no-files-found: error
 
   macos:
@@ -89,7 +86,7 @@ jobs:
       - name: Build cross-env
         run: |
           cd ./cross-env
-          v -prod -os macos -m64 -o cross-env_darwin_amd64 main.v
+          make macos
 
       - uses: actions/upload-artifact@v2
         with:
@@ -118,10 +115,10 @@ jobs:
       - name: tar
         run: |
           mv cross-env_linux_amd64 cross-env && chmod +x cross-env && tar czf cross-env_linux_amd64.tar.gz cross-env && rm cross-env
-          mv cross-env_linux_386 cross-env && chmod +x cross-env && tar czf cross-env_linux_386.tar.gz cross-env && rm cross-env
+          # mv cross-env_linux_386 cross-env && chmod +x cross-env && tar czf cross-env_linux_386.tar.gz cross-env && rm cross-env
           mv cross-env_darwin_amd64 cross-env && chmod +x cross-env && tar czf cross-env_darwin_amd64.tar.gz cross-env && rm cross-env
           mv cross-env_windows_amd64.exe cross-env.exe && chmod +x cross-env.exe && tar czf cross-env_windows_amd64.tar.gz cross-env.exe && rm cross-env.exe
-          mv cross-env_windows_386.exe cross-env.exe && chmod +x cross-env.exe && tar czf cross-env_windows_386.tar.gz cross-env.exe && rm cross-env.exe
+          # mv cross-env_windows_386.exe cross-env.exe && chmod +x cross-env.exe && tar czf cross-env_windows_386.tar.gz cross-env.exe && rm cross-env.exe
           ls -lh
 
       - uses: softprops/action-gh-release@v1
@@ -130,8 +127,8 @@ jobs:
         with:
           files: |
             cross-env_linux_amd64.tar.gz
-            cross-env_linux_386.tar.gz
+            # cross-env_linux_386.tar.gz
             cross-env_darwin_amd64.tar.gz
             cross-env_windows_amd64.tar.gz
-            cross-env_windows_386.tar.gz
+            # cross-env_windows_386.tar.gz
           draft: false
