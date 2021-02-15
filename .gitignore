@@ -1,4 +1,4 @@
 main
-cross-env
+cross-env*
 .DS_Store
 *.tar.gz
