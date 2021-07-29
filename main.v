@@ -11,10 +11,12 @@ fn print_help() {
 	print('cross-env - cross-platform cli for setting environment variables
 
 USAGE:
-  cross-env [Environment variable] <COMMANDS>
+  cross-env [OPTIONS] [Environment variable] <COMMANDS>
 
 EXAMPLE:
   cross-env FOO=BAR NODE_ENV=PRODUCTION node index.js
+  cross-env --help
+  cross-env --version
 
 SOURCE CODE:
   https://github.com/axetroy/cross-env
