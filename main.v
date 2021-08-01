@@ -13,6 +13,10 @@ fn print_help() {
 USAGE:
   cross-env [OPTIONS] [Environment variable] <COMMANDS>
 
+OPTIONS:
+  --help, -H       show help
+  --version, -V    print the version
+
 EXAMPLE:
   cross-env FOO=BAR NODE_ENV=PRODUCTION node index.js
   cross-env --help
@@ -32,12 +36,12 @@ fn main() {
 	query := r'([a-zA-z0-9_]+)=(.*)'
 	mut reg := regex.regex_opt(query) or { panic(err) }
 	mut env := os.environ()
-	mut index := 0
+	mut flag_index := 0
 	for {
-		if index >= args.len {
+		if flag_index >= args.len {
 			break
 		}
-		text := args[index]
+		text := args[flag_index]
 		if text == '--help' || text == '-H' {
 			print_help()
 			exit(0)
@@ -48,6 +52,8 @@ fn main() {
 			exit(0)
 		}
 		mut start, _ := reg.match_string(text)
+
+		// set env
 		if start >= 0 && reg.groups.len > 0 {
 			key := text.substr(reg.groups[0], reg.groups[1])
 			value := text.substr(reg.groups[2], reg.groups[3])
@@ -55,14 +61,14 @@ fn main() {
 		} else {
 			break
 		}
-		index++
+		flag_index++
 	}
-	bin_name := args[index]
+	bin_name := args[flag_index]
 	bin_path := os.find_abs_path_of_executable(bin_name) or {
 		panic("Can not found executable file '$bin_name' in your \$PATH.\n$err")
 	}
 	mut ps := os.new_process(bin_path)
-	ps.set_args(args[(index + 1)..])
+	ps.set_args(args[(flag_index + 1)..])
 	ps.set_environment(env)
 	ps.run()
 	ps.wait() // wait for the child process to complete
