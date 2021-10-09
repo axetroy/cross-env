@@ -21,17 +21,21 @@ jobs:
         with:
           path: cross-env
 
+      - name: Format
+        run: |
+          cd ./cross-env
+          make format-check
+
       - name: Build cross-env
         run: |
           cd ./cross-env
           make linux
+          tar czf cross-env_linux_amd64.tar.gz --directory=./bin ./cross-env
 
       - uses: actions/upload-artifact@v2
         with:
-          name: linux
-          path: |
-            ./cross-env/bin/cross-env_linux_amd64
-            # ./cross-env/bin/cross-env_linux_386
+          name: linux_amd64
+          path: ./cross-env/cross-env_linux_amd64.tar.gz
           if-no-files-found: error
 
   windows:
@@ -56,13 +60,12 @@ jobs:
           $env:path += ";$(get-location)"
           cd ./cross-env
           make windows
+          tar czf cross-env_windows_amd64.tar.gz --directory=./bin ./cross-env.exe
 
       - uses: actions/upload-artifact@v2
         with:
-          name: windows
-          path: |
-            .\\cross-env\\bin\\cross-env_windows_amd64.exe
-            # .\\cross-env\\bin\\cross-env_windows_386.exe
+          name: windows_amd64
+          path: ./cross-env/cross-env_windows_amd64.tar.gz
           if-no-files-found: error
 
   macos:
@@ -87,11 +90,12 @@ jobs:
         run: |
           cd ./cross-env
           make macos
+          tar czf cross-env_darwin_amd64.tar.gz --directory=./bin ./cross-env
 
       - uses: actions/upload-artifact@v2
         with:
-          name: macos
-          path: ./cross-env/bin/cross-env_darwin_amd64
+          name: darwin_amd64
+          path: ./cross-env/cross-env_darwin_amd64.tar.gz
           if-no-files-found: error
 
   release:
@@ -101,34 +105,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
-        with:
-          name: linux
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: windows
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: macos
-
-      - name: tar
-        run: |
-          mv cross-env_linux_amd64 cross-env && chmod +x cross-env && tar czf cross-env_linux_amd64.tar.gz cross-env && rm cross-env
-          # mv cross-env_linux_386 cross-env && chmod +x cross-env && tar czf cross-env_linux_386.tar.gz cross-env && rm cross-env
-          mv cross-env_darwin_amd64 cross-env && chmod +x cross-env && tar czf cross-env_darwin_amd64.tar.gz cross-env && rm cross-env
-          mv cross-env_windows_amd64.exe cross-env.exe && chmod +x cross-env.exe && tar czf cross-env_windows_amd64.tar.gz cross-env.exe && rm cross-env.exe
-          # mv cross-env_windows_386.exe cross-env.exe && chmod +x cross-env.exe && tar czf cross-env_windows_386.tar.gz cross-env.exe && rm cross-env.exe
-          ls -lh
+      - run: ls -lh
 
       - uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           files: |
-            cross-env_linux_amd64.tar.gz
-            # cross-env_linux_386.tar.gz
-            cross-env_darwin_amd64.tar.gz
-            cross-env_windows_amd64.tar.gz
-            # cross-env_windows_386.tar.gz
+            ./windows_amd64/cross-env_windows_amd64.tar.gz
+            ./linux_amd64/cross-env_linux_amd64.tar.gz
+            ./darwin_amd64/cross-env_darwin_amd64.tar.gz
           draft: false
