@@ -41,27 +41,36 @@ fn main() {
 		if flag_index >= args.len {
 			break
 		}
-		text := args[flag_index]
-		if text == '--help' || text == '-H' {
-			print_help()
-			exit(0)
-			return
-		}
-		if text == '--version' || text == '-V' {
-			println(version)
-			exit(0)
-		}
-		mut start, _ := reg.match_string(text)
 
-		// set env
-		if start >= 0 && reg.groups.len > 0 {
-			key := text.substr(reg.groups[0], reg.groups[1])
-			value := text.substr(reg.groups[2], reg.groups[3])
-			env[key] = value
+		text := args[flag_index]
+
+		if text.starts_with('-') {
+			match text {
+				'--help', '-H' {
+					print_help()
+					exit(0)
+				}
+				'--version', '-V' {
+					println(version)
+					exit(0)
+				}
+				else {
+					panic(error("invalid flag '$text'"))
+				}
+			}
 		} else {
-			break
+			mut start, _ := reg.match_string(text)
+
+			// set env
+			if start >= 0 && reg.groups.len > 0 {
+				key := text.substr(reg.groups[0], reg.groups[1])
+				value := text.substr(reg.groups[2], reg.groups[3])
+				env[key] = value
+				flag_index++
+			} else {
+				break
+			}
 		}
-		flag_index++
 	}
 	bin_name := args[flag_index]
 	bin_path := os.find_abs_path_of_executable(bin_name) or {
