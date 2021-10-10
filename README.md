@@ -7,18 +7,23 @@
 
 cross-platform cli for setting environment variables, written in [vlang](https://github.com/vlang/v)
 
-## Installation
+### Install
 
-If you are using `unix` style system(`macOS`/`Linux`). enter the command line to install.
+1. Shell (Mac/Linux)
 
-```shell
-# install the latest version
-curl -fsSL https://raw.githubusercontent.com/axetroy/cross-env/master/install.sh | bash
-# install the specified version
-curl -fsSL https://raw.githubusercontent.com/axetroy/cross-env/master/install.sh | bash -s v0.1.5
+```bash
+curl -fsSL https://github.com/release-lab/install/raw/v1/install.sh | bash -s -- -r=axetroy/cross-env
 ```
 
-Or download [the release file](https://github.com/axetroy/cross-env/releases) for your platform and put it to `$PATH` folder.
+2. PowerShell (Windows):
+
+```powershell
+$r="axetroy/cross-env";iwr https://github.com/release-lab/install/raw/v1/install.ps1 -useb | iex
+```
+
+3. [Github release page](https://github.com/axetroy/cross-env/releases) (All platforms)
+
+download the executable file and put the executable file to `$PATH`
 
 ## Usage
 
