@@ -1,6 +1,6 @@
 # cross-env
 
-![ci](https://github.com/axetroy/cross-env/workflows/ci/badge.svg)
+[![ci](https://github.com/axetroy/cross-env/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/axetroy/cross-env/actions/workflows/ci.yml)
 ![Latest Version](https://img.shields.io/github/v/release/axetroy/cross-env.svg)
 ![License](https://img.shields.io/github/license/axetroy/cross-env.svg)
 ![Repo Size](https://img.shields.io/github/repo-size/axetroy/cross-env.svg)
